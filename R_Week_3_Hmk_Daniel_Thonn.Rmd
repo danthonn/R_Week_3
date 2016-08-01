@@ -1,0 +1,63 @@
+---
+title: "R_Week_3_Hmk_Daniel_Thonn"
+output: html_document
+course: R-Bridge CUNY MSDA program
+---
+
+## Assignment Homework-3: Mushrooms dataset
+
+### Step-1: Load the dataset
+
+###  header1
+###  header2
+
+```{r, echo=TRUE}
+#install.packages("RCurl")
+#install.packages("XML")
+require(RCurl)
+require(XML)
+require(stringr)
+
+# Load URL
+url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/mushroom/agaricus-lepiota.data"
+#obtain dataset
+data1 <- getURL(url)
+getwd()
+
+#load dataset
+x <- read.csv(text=data1,header=FALSE, sep=",")
+#view dataset - (only done as initially needed)
+x
+typeof(x)
+#Result: dataset is in list format
+
+#examine header
+head(x)
+#Result: there are 6 lines in the head
+
+#check named elements in x
+names(x)
+#Result: there are 23 column names
+
+#check the structure of x
+str(x)
+# Result: 8124 objects of 23 variables
+# Create subset of first 3 columns of mushroom dataset
+# 1-edible/poisonous, 2- cap-shape, 3-cap-color,4-bruises?,5-odor
+y <- x[,c(1,2,3,4,5)]
+colnames(y) = c("edible/poisonous","cap-shape", "cap-color","bruises?","odor")
+y
+#z <- str_replace_all(y[,c(1)],c("p","e"),c("poisonous","edible"))
+#y[,c(1)] <- gsub("p","poisonous",y[,c(1)])
+y[,c(1)] <- str_replace_all(y[,c(1)],c("p","e"),c("poisonous","edible"))
+y[,c(2)] <- str_replace_all(y[,c(2)],c("b","c","x","f","k","s"),c("bell","conical","convex","flat","knobbed","sunken"))
+y[,c(3)] <- str_replace_all(y[,c(3)],c("f","g","y","s"),c("fibrous","grooves","scaly","smooth"))
+y[,c(4)] <- str_replace_all(y[,c(4)],c("n","b","c","g","r","p","u","e","w","y"),c("brown","buff","cinnamon","gray","green","pink","purple","red","white","yellow"))
+y[,c(5)] <- str_replace_all(y[,c(5)],c("t","f"),c("bruises","no"))
+y
+
+
+```
+
+
+
